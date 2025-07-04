@@ -211,7 +211,7 @@ with gr.Blocks(
             )
     
     # Senden-Button
-    submit_button = gr.Button("🔍 Analyse starten", variant="primary", elem_id="submit_button") # HINZUGEFÜGT: ID für CSS
+    submit_button = gr.Button("🔍 Analyse starten", variant="primary", elem_id="submit_button")
     
     # Finale Antwort-Box
     final_answer_display = gr.Textbox(
@@ -222,14 +222,10 @@ with gr.Blocks(
         elem_id="final_answer_display"
     )
 
-    gr.HTML(
-            """
-            <div style="text-align: center; font-size: 0.9em; color: gray; margin-top: 20px;">
-                <span><i>⏱️ Die Verarbeitung dauert typischerweise 10-20 Sekunden.</i> | </span>
-                <a href="/systeminfo/index.html" target="_blank" style="text-decoration: none; color: inherit;">Systemhinweise</a>
-            </div>
-            """
-        )
+    # Footer
+    gr.Markdown(
+        "*⏱️ Die Verarbeitung dauert typischerweise 10-20 Sekunden.*"
+    )
 
     # --- EVENT-HANDLER ---
     

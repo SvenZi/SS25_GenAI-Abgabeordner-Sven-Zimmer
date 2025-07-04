@@ -1,0 +1,324 @@
+{
+  "project_info": {
+    "name": "AdventureBikes Analytics Platform",
+    "description": "Intelligente Business Intelligence Plattform mit natürlichsprachlichen Datenbankabfragen",
+    "version": "1.0.0",
+    "technologies": [
+      "Python",
+      "Gradio",
+      "OpenAI",
+      "MSSQL",
+      "SQLAlchemy"
+    ],
+    "semester": "Sommersemester 2025",
+    "author": "Sven Zimmer"
+  },
+  "architecture": {
+    "pattern": "Multi-Agent Architecture",
+    "layers": [
+      {
+        "name": "Presentation Layer",
+        "components": [
+          "Gradio Web Interface",
+          "Audio Input",
+          "Text Input",
+          "Results Display"
+        ]
+      },
+      {
+        "name": "AI Agent Layer",
+        "components": [
+          "SQL Generator Agent",
+          "Interpreter Agent"
+        ]
+      },
+      {
+        "name": "Data Access Layer",
+        "components": [
+          "SQLAlchemy ORM",
+          "Database Connection Pool",
+          "Security Layer"
+        ]
+      },
+      {
+        "name": "Database Layer",
+        "components": [
+          "Microsoft SQL Server",
+          "AdventureBikes Database"
+        ]
+      }
+    ]
+  },
+  "dataflow": {
+    "steps": [
+      {
+        "id": 1,
+        "name": "Benutzereingabe",
+        "description": "Benutzer stellt Geschäftsfrage per Text oder Audio",
+        "input": "Natürlichsprachliche Frage",
+        "output": "Strukturierte Anfrage",
+        "components": [
+          "Gradio Interface",
+          "Whisper API",
+          "Input Validation"
+        ],
+        "duration": "1-3 Sekunden"
+      },
+      {
+        "id": 2,
+        "name": "SQL-Generierung",
+        "description": "KI-Agent konvertiert Frage zu SQL-Abfrage",
+        "input": "Geschäftsfrage",
+        "output": "T-SQL Query",
+        "components": [
+          "GPT-4o-mini",
+          "SQL Agent",
+          "Query Validation"
+        ],
+        "duration": "3-8 Sekunden"
+      },
+      {
+        "id": 3,
+        "name": "Datenbankabfrage",
+        "description": "Sichere Ausführung der SQL-Abfrage",
+        "input": "Validierte SQL-Abfrage",
+        "output": "Strukturierte Daten",
+        "components": [
+          "SQLAlchemy",
+          "MSSQL Server",
+          "Connection Pool"
+        ],
+        "duration": "0.5-2 Sekunden"
+      },
+      {
+        "id": 4,
+        "name": "Antwort-Generierung",
+        "description": "Konvertierung der Daten zu natürlicher Sprache",
+        "input": "CSV-Daten",
+        "output": "Benutzerfreundliche Antwort",
+        "components": [
+          "Interpreter Agent",
+          "GPT-4o-mini",
+          "Text Formatting"
+        ],
+        "duration": "2-5 Sekunden"
+      },
+      {
+        "id": 5,
+        "name": "Ergebnis-Darstellung",
+        "description": "Anzeige der Ergebnisse in der Weboberfläche",
+        "input": "Formatierte Antwort",
+        "output": "Visuelle Darstellung",
+        "components": [
+          "Gradio Rendering",
+          "HTML/CSS",
+          "Copy Function"
+        ],
+        "duration": "0.1-0.5 Sekunden"
+      }
+    ],
+    "total_duration": "6-18 Sekunden"
+  },
+  "agents": {
+    "sql_agent": {
+      "name": "Principal AI Data Analyst",
+      "model": "gpt-4o-mini",
+      "file": "sql_agent.py",
+      "system_prompt": "systemprompt_sql_agent.txt",
+      "role": "Konvertiert natürliche Sprache zu T-SQL",
+      "capabilities": [
+        "T-SQL Code Generierung",
+        "Business Terminology Interpretation",
+        "Query Optimization",
+        "Error Handling für ungültige Werte",
+        "Table Alias Management"
+      ],
+      "rules": [
+        "Keine Halluzination",
+        "Nur T-SQL-Dialekt",
+        "Fehler bei ungültigen Werten",
+        "Verwendung von Tabellen-Aliassen",
+        "Geschäftsbegriffe übersetzen"
+      ]
+    },
+    "interpreter_agent": {
+      "name": "AI Data Result Interpreter",
+      "model": "gpt-4o-mini",
+      "file": "interpreter_agent.py",
+      "system_prompt": "systemprompt_interpreter_agent.txt",
+      "role": "Konvertiert Datenbank-Ergebnisse zu natürlicher Sprache",
+      "capabilities": [
+        "CSV-Daten Interpretation",
+        "Währungsformatierung",
+        "Fehlerbehandlung",
+        "Natürlichsprachliche Antworten",
+        "Kontext-aware Responses"
+      ],
+      "supported_formats": [
+        "CSV (Komma-getrennt)",
+        "Währungsbeträge (EUR)",
+        "Verkaufszahlen",
+        "Fehlermeldungen"
+      ]
+    }
+  },
+  "database": {
+    "system": "Microsoft SQL Server",
+    "connection": "SQLAlchemy + pyodbc",
+    "tables": [
+      {
+        "name": "DataSet_Monthly_Sales",
+        "description": "Monatliche Verkaufsdaten",
+        "alias": "dms",
+        "key_columns": [
+          "Calendar_Year",
+          "Calendar_Month_ISO",
+          "Sales_Country",
+          "Product_Category",
+          "Revenue_EUR",
+          "Sales_Amount"
+        ]
+      },
+      {
+        "name": "Facts_Daily_Sales",
+        "description": "Tägliche Verkaufstransaktionen",
+        "alias": "fds",
+        "key_columns": [
+          "ID_Order_Date",
+          "Sales_Amount",
+          "ID_Product"
+        ]
+      },
+      {
+        "name": "Dim_Product",
+        "description": "Produktstammdaten",
+        "alias": "p",
+        "key_columns": [
+          "Material_Number",
+          "Material_Description",
+          "Product_Category"
+        ]
+      }
+    ],
+    "dimensions": {
+      "Product_Category": [
+        "City Bikes",
+        "Kid Bikes",
+        "Mountain Bikes",
+        "Race Bikes",
+        "Trekking Bikes"
+      ],
+      "Sales_Country": [
+        "France",
+        "Germany",
+        "Netherlands",
+        "Switzerland",
+        "United Kingdom",
+        "United States"
+      ],
+      "Global_Region": [
+        "Europe",
+        "North America"
+      ],
+      "Sales_Channel": [
+        "Direct Sales",
+        "Internet Sales",
+        "Reseller"
+      ]
+    }
+  },
+  "security": {
+    "features": [
+      {
+        "name": "SQL Injection Prevention",
+        "implementation": "Nur SELECT-Abfragen erlaubt",
+        "location": "database_request.py"
+      },
+      {
+        "name": "API Key Management",
+        "implementation": "Umgebungsvariablen mit python-dotenv",
+        "location": ".env"
+      },
+      {
+        "name": "Input Validation",
+        "implementation": "Parameter-Validierung vor Verarbeitung",
+        "location": "app.py"
+      },
+      {
+        "name": "Error Handling",
+        "implementation": "Try-Catch Blöcke mit benutzerfreundlichen Nachrichten",
+        "location": "Alle Module"
+      }
+    ]
+  },
+  "tech_stack": {
+    "frontend": [
+      "Gradio 5.34.2+",
+      "HTML/CSS/JavaScript"
+    ],
+    "backend": [
+      "Python 3.11+",
+      "FastAPI (via Gradio)"
+    ],
+    "ai_ml": [
+      "OpenAI GPT-4o-mini",
+      "OpenAI Whisper",
+      "openai-agents"
+    ],
+    "database": [
+      "Microsoft SQL Server",
+      "SQLAlchemy 2.0.41+",
+      "pyodbc 5.2.0+"
+    ],
+    "data_processing": [
+      "Pandas 2.3.0+",
+      "CSV Processing"
+    ],
+    "configuration": [
+      "python-dotenv 1.1.1+"
+    ],
+    "audio": [
+      "OpenAI Whisper API",
+      "Gradio Audio Components"
+    ]
+  },
+  "files": {
+    "app.py": {
+      "description": "Hauptanwendung mit Gradio Interface",
+      "functions": [
+        "transcribe_and_update_textbox",
+        "generate_sql_and_pass_to_request"
+      ],
+      "size": "5.9 KB"
+    },
+    "database_request.py": {
+      "description": "Datenbankzugriff und Sicherheit",
+      "functions": [
+        "DatabaseRequest",
+        "_get_db_engine"
+      ],
+      "size": "3.3 KB"
+    },
+    "audio_transcriber.py": {
+      "description": "Audio-zu-Text Konvertierung",
+      "functions": [
+        "transcribe_audio"
+      ],
+      "size": "1.2 KB"
+    },
+    "sql_agent.py": {
+      "description": "SQL-Generator Agent",
+      "functions": [
+        "create_sql_agent"
+      ],
+      "size": "0.3 KB"
+    },
+    "interpreter_agent.py": {
+      "description": "Antwort-Interpreter Agent",
+      "functions": [
+        "create_interpreter_agent"
+      ],
+      "size": "0.4 KB"
+    }
+  }
+}
